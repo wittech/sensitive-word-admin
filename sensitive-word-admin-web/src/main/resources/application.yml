@@ -5,13 +5,15 @@ spring:
   datasource:
     druid:
       username: root
-      password: 123456
+      password: 1$=7yuan
       url: jdbc:mysql://localhost:3306/sensitive_word?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
       driver-class-name: com.mysql.jdbc.Driver
 
   ## MVC
   # 默认配置会自动在 /public /static /resources 目录寻找静态资源, 故不需要 /static 等前缀
   mvc:
+#    servlet:
+#      path: /api/v7
     static-path-pattern: /**
     # 接受日期参数问题
     date-format: yyyy-MM-dd HH:mm:ss

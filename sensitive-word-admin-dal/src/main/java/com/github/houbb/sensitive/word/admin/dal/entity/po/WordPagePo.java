@@ -15,34 +15,34 @@ public class WordPagePo extends Word {
     /**
     * 分页大小
     */
-    private Integer pageSize;
+    private Integer limit;
 
     /**
     * 当前页码
     */
-    private Integer pageNum;
+    private Integer page;
 
-    public Integer getPageSize() {
-        return pageSize;
+    public Integer getLimit() {
+        return limit;
     }
 
-    public void setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
+    public void setLimit(Integer limit) {
+        this.limit = limit;
     }
 
-    public Integer getPageNum() {
-        return pageNum;
+    public Integer getPage() {
+        return page;
     }
 
-    public void setPageNum(Integer pageNum) {
-        this.pageNum = pageNum;
+    public void setPage(Integer page) {
+        this.page = page;
     }
 
     @Override
     public String toString() {
         return "WordPagePo{" +
-        "pageSize=" + pageSize +
-        ", pageNum=" + pageNum +
+        "limit=" + limit +
+        ", page=" + page +
         "} " + super.toString();
     }
 

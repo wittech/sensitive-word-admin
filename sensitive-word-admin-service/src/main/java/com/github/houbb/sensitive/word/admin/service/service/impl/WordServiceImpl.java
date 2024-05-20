@@ -48,7 +48,7 @@ public class WordServiceImpl extends ServiceImpl<WordMapper, Word> implements Wo
     public BasePageInfo<Word> pageQueryList(WordPagePo pageReq) {
         Wrapper<Word> wrapper = buildPageQueryWrapper(pageReq);
 
-        Page<Word> page = new Page<>(pageReq.getPageNum(), pageReq.getPageSize());
+        Page<Word> page = new Page<>(pageReq.getPage(), pageReq.getLimit());
         page = this.selectPage(page, wrapper);
         BasePageInfo<Word> pageInfo = new BasePageInfo<>();
         pageInfo.setList(page.getRecords());

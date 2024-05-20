@@ -4,6 +4,7 @@ import com.github.houbb.menu.api.annotation.Menu;
 import com.github.houbb.auto.log.annotation.AutoLog;
 import com.github.houbb.heaven.util.io.FileUtil;
 import com.github.houbb.iexcel.util.ExcelHelper;
+import com.github.houbb.sensitive.word.admin.web.biz.Result;
 import com.github.houbb.sensitive.word.admin.web.biz.WordBiz;
 import com.github.houbb.web.common.dto.resp.BaseResp;
 import com.github.houbb.web.common.dto.resp.BasePageInfo;
@@ -35,7 +36,7 @@ import java.util.List;
  * @since 2024-02-05
  */
 @Controller
-@RequestMapping("/word")
+@RequestMapping("/api/v7/word")
 @AutoLog
 @Menu(id = "word", name = "敏感词表", orderNum = 0, type = "MENU", level = 1)
 public class WordController {
@@ -59,17 +60,17 @@ public class WordController {
 
     /**
     * 添加元素
-    * @param entity 实体
+    * @param entity 实体 {word: "日本人", type: "DENY", status: "S", remark: ""}
     * @return 结果
     */
     @RequestMapping("/add")
     @ResponseBody
     @PrivilegeAcquire({"admin", "word-add"})
     @Menu(id = "word-add", pid = "word", name = "敏感词表-添加", orderNum = 1, type = "API", level = 2)
-    public BaseResp add(@RequestBody final Word entity) {
+    public Result<String> add(@RequestBody final Word entity) {
         wordBiz.addTx(entity);
 
-        return RespUtil.success();
+        return Result.success("成功");
     }
 
     /**
@@ -81,10 +82,10 @@ public class WordController {
     @ResponseBody
     @PrivilegeAcquire({"admin", "word-edit"})
     @Menu(id = "word-edit", pid = "word", name = "敏感词表-编辑", orderNum = 2, type = "API", level = 2)
-    public BaseResp edit(final Word entity) {
+    public Result<String> edit(final Word entity) {
         wordBiz.editTx(entity);
 
-        return RespUtil.success();
+        return Result.success("成功");
     }
 
     /**
@@ -111,10 +112,10 @@ public class WordController {
     @ResponseBody
     @PrivilegeAcquire({"admin", "word-remove"})
     @Menu(id = "word-remove", pid = "word", name = "敏感词表-删除", orderNum = 4, type = "API", level = 2)
-    public BaseResp remove(@PathVariable final Integer id) {
+    public Result<String> remove(@PathVariable final Integer id) {
         wordBiz.removeTx(id);
 
-        return RespUtil.success();
+        return Result.success("成功");
     }
 
     /**
@@ -126,9 +127,12 @@ public class WordController {
     @ResponseBody
     @PrivilegeAcquire({"admin", "word-list"})
     @Menu(id = "word-list", pid = "word", name = "敏感词表-列表", orderNum = 5, type = "API", level = 2)
-    public BaseResp list(@RequestBody WordPagePo pageReq) {
+    public Result<BasePageInfo<Word>> list(@RequestBody WordPagePo pageReq) {
+//        long limit = jsonObject.getLong("limit", 10L);
+//        long page = jsonObject.getLong("page", 1L);
+//        long skip = (page - 1) * limit;
         BasePageInfo<Word> pageInfo = wordService.pageQueryList(pageReq);
-        return RespUtil.of(pageInfo);
+        return Result.success(pageInfo);
     }
 
     /**
@@ -145,8 +149,8 @@ public class WordController {
         final String fileName = "文件导出-敏感词表-" + System.currentTimeMillis() + ".xls";
         File file = new File(fileName);
         try {
-            pageReq.setPageNum(1);
-            pageReq.setPageSize(Integer.MAX_VALUE);
+            pageReq.setPage(1);
+            pageReq.setLimit(Integer.MAX_VALUE);
 
             BasePageInfo<Word> pageInfo = wordService.pageQueryList(pageReq);
 
@@ -182,9 +186,8 @@ public class WordController {
     @ResponseBody
     @PrivilegeAcquire({"admin", "word-deleteBatch"})
     @Menu(id = "word-deleteBatch", pid = "word", name = "敏感词表-批量删除", orderNum = 7, type = "API", level = 2)
-    public BaseResp deleteBatch(@RequestBody List<Integer> ids) {
+    public Result<String> deleteBatch(@RequestBody List<Integer> ids) {
         wordBiz.removeBatchTx(ids);
-        return RespUtil.success();
+        return Result.success("成功");
     }
-
 }
