@@ -7,7 +7,7 @@ import com.github.houbb.sensitive.word.admin.service.service.WordLogService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.github.houbb.web.common.dto.resp.BasePageInfo;
+import com.github.houbb.sensitive.word.admin.dal.entity.BasePageInfo;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
@@ -51,7 +51,7 @@ public class WordLogServiceImpl extends ServiceImpl<WordLogMapper, WordLog> impl
         Page<WordLog> page = new Page<>(pageReq.getPageNum(), pageReq.getPageSize());
         page = this.selectPage(page, wrapper);
         BasePageInfo<WordLog> pageInfo = new BasePageInfo<>();
-        pageInfo.setList(page.getRecords());
+        pageInfo.setData(page.getRecords());
         pageInfo.setTotal(page.getTotal());
         pageInfo.setTotalPages(page.getPages());
         return pageInfo;

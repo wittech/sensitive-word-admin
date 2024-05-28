@@ -13,37 +13,37 @@ import com.github.houbb.sensitive.word.admin.dal.entity.Word;
 public class WordPagePo extends Word {
 
     /**
-    * 分页大小
-    */
-    private Integer limit;
+     * 分页大小
+     */
+    private Integer pageSize;
 
     /**
-    * 当前页码
-    */
-    private Integer page;
+     * 当前页码
+     */
+    private Integer pageNum;
 
-    public Integer getLimit() {
-        return limit;
+    public Integer getPageSize() {
+        return pageSize;
     }
 
-    public void setLimit(Integer limit) {
-        this.limit = limit;
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
     }
 
-    public Integer getPage() {
-        return page;
+    public Integer getPageNum() {
+        return pageNum;
     }
 
-    public void setPage(Integer page) {
-        this.page = page;
+    public void setPageNum(Integer pageNum) {
+        this.pageNum = pageNum;
     }
 
     @Override
     public String toString() {
         return "WordPagePo{" +
-        "limit=" + limit +
-        ", page=" + page +
-        "} " + super.toString();
+                "pageSize=" + pageSize +
+                ", pageNum=" + pageNum +
+                "} " + super.toString();
     }
 
 }

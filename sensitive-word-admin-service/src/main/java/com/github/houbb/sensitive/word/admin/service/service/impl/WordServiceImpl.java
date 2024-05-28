@@ -1,5 +1,6 @@
 package com.github.houbb.sensitive.word.admin.service.service.impl;
 
+import com.github.houbb.sensitive.word.admin.dal.entity.BasePageInfo;
 import com.github.houbb.sensitive.word.admin.dal.entity.Word;
 import com.github.houbb.sensitive.word.admin.dal.entity.po.WordPagePo;
 import com.github.houbb.sensitive.word.admin.dal.mapper.WordMapper;
@@ -7,7 +8,6 @@ import com.github.houbb.sensitive.word.admin.service.service.WordService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.github.houbb.web.common.dto.resp.BasePageInfo;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
@@ -48,10 +48,10 @@ public class WordServiceImpl extends ServiceImpl<WordMapper, Word> implements Wo
     public BasePageInfo<Word> pageQueryList(WordPagePo pageReq) {
         Wrapper<Word> wrapper = buildPageQueryWrapper(pageReq);
 
-        Page<Word> page = new Page<>(pageReq.getPage(), pageReq.getLimit());
+        Page<Word> page = new Page<>(pageReq.getPageNum(), pageReq.getPageSize());
         page = this.selectPage(page, wrapper);
         BasePageInfo<Word> pageInfo = new BasePageInfo<>();
-        pageInfo.setList(page.getRecords());
+        pageInfo.setData(page.getRecords());
         pageInfo.setTotal(page.getTotal());
         pageInfo.setTotalPages(page.getPages());
         return pageInfo;

@@ -1,5 +1,6 @@
 package com.github.houbb.sensitive.word.admin.web.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.houbb.menu.api.annotation.Menu;
 import com.github.houbb.auto.log.annotation.AutoLog;
 import com.github.houbb.heaven.util.io.FileUtil;
@@ -7,7 +8,7 @@ import com.github.houbb.iexcel.util.ExcelHelper;
 import com.github.houbb.sensitive.word.admin.web.biz.Result;
 import com.github.houbb.sensitive.word.admin.web.biz.WordBiz;
 import com.github.houbb.web.common.dto.resp.BaseResp;
-import com.github.houbb.web.common.dto.resp.BasePageInfo;
+import com.github.houbb.sensitive.word.admin.dal.entity.BasePageInfo;
 import com.github.houbb.web.common.util.RespUtil;
 import com.github.houbb.privilege.api.annotation.PrivilegeAcquire;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,17 +121,21 @@ public class WordController {
 
     /**
     * 列表
-    * @param pageReq 入参
     * @return 结果
     */
     @RequestMapping("/list")
     @ResponseBody
     @PrivilegeAcquire({"admin", "word-list"})
     @Menu(id = "word-list", pid = "word", name = "敏感词表-列表", orderNum = 5, type = "API", level = 2)
-    public Result<BasePageInfo<Word>> list(@RequestBody WordPagePo pageReq) {
-//        long limit = jsonObject.getLong("limit", 10L);
-//        long page = jsonObject.getLong("page", 1L);
-//        long skip = (page - 1) * limit;
+    public Result<BasePageInfo<Word>> list(@RequestBody JSONObject jsonObject) {
+        if(jsonObject == null){
+            return Result.error("参数错误");
+        }
+        int limit = jsonObject.containsKey("limit") ? jsonObject.getInteger("limit") : 10;
+        int page = jsonObject.containsKey("page") ? jsonObject.getInteger("page") : 1;
+        WordPagePo pageReq = new WordPagePo();
+        pageReq.setPageSize(limit);
+        pageReq.setPageNum(page);
         BasePageInfo<Word> pageInfo = wordService.pageQueryList(pageReq);
         return Result.success(pageInfo);
     }
@@ -149,13 +154,13 @@ public class WordController {
         final String fileName = "文件导出-敏感词表-" + System.currentTimeMillis() + ".xls";
         File file = new File(fileName);
         try {
-            pageReq.setPage(1);
-            pageReq.setLimit(Integer.MAX_VALUE);
+            pageReq.setPageNum(1);
+            pageReq.setPageSize(Integer.MAX_VALUE);
 
             BasePageInfo<Word> pageInfo = wordService.pageQueryList(pageReq);
 
             // 直接写入到文件
-            ExcelHelper.write(file.getAbsolutePath(), pageInfo.getList());
+            ExcelHelper.write(file.getAbsolutePath(), pageInfo.getData());
 
             // 根据客户端，选择信息
             response.addHeader("content-Type", "application/octet-stream");

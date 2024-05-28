@@ -5,7 +5,7 @@ import com.github.houbb.auto.log.annotation.AutoLog;
 import com.github.houbb.heaven.util.io.FileUtil;
 import com.github.houbb.iexcel.util.ExcelHelper;
 import com.github.houbb.web.common.dto.resp.BaseResp;
-import com.github.houbb.web.common.dto.resp.BasePageInfo;
+import com.github.houbb.sensitive.word.admin.dal.entity.BasePageInfo;
 import com.github.houbb.web.common.util.RespUtil;
 import com.github.houbb.privilege.api.annotation.PrivilegeAcquire;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,7 +146,7 @@ public class WordTagMappingController {
             BasePageInfo<WordTagMapping> pageInfo = wordTagMappingService.pageQueryList(pageReq);
 
             // 直接写入到文件
-            ExcelHelper.write(file.getAbsolutePath(), pageInfo.getList());
+            ExcelHelper.write(file.getAbsolutePath(), pageInfo.getData());
 
             // 根据客户端，选择信息
             response.addHeader("content-Type", "application/octet-stream");

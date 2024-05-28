@@ -3,7 +3,7 @@ package com.github.houbb.sensitive.word.admin.service.service;
 import com.github.houbb.sensitive.word.admin.dal.entity.Word;
 import com.github.houbb.sensitive.word.admin.dal.entity.po.WordPagePo;
 import com.baomidou.mybatisplus.service.IService;
-import com.github.houbb.web.common.dto.resp.BasePageInfo;
+import com.github.houbb.sensitive.word.admin.dal.entity.BasePageInfo;
 
 import java.util.List;
 
